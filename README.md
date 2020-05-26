@@ -10,17 +10,18 @@ This is unofficial pytorch implementation of the paper, "Image Style Transfer Us
 
 ## Usage
 ### Options
-* `--content, -c`: The path to the content image.
-* `--style, -s`: The path to the style image.
+* `--content, -c`: The path to the content image. Cannot be omitted.
+* `--style, -s`: The path to the style image. Cannot be omitted
+* `--output -o`: The path to transferred image.
 * `--epoch, -e`: The number of epoch. (Default: 300)
 * `-content_weight, -c_w`: The weight of the content loss. (Default: 1)
 * `-style_weight, -s_w`: The weight of the style loss. (Default: 1000)
 * `--initialize_noise, -i_n`: If you use this option, the transferred image is initialized with white noise. If not, it is initialized with the grayscale content image.
 * `--cuda`: If you have an available GPU, you should use this option.
 * `--content_layers, -c_l`: If you want to name which layers have content-related information, use this. name of each layers are like conv_i or relu_i <br>
-use like this: ``` python style_transfer.py --content_layers conv_1 conv_2```
+use like this: ``` python style_transfer.py --content_layers conv_1 conv_2``` (Default: conv_1)
 * `--style_layers, -s_l`: If you want to name which layers have style-related information, use this. name of each layers are like conv_i or relu_i <br>
-use like this: ``` python style_transfer.py --style_layers conv_1 reelu_3```
+use like this: ``` python style_transfer.py --style_layers conv_1 reelu_3``` (Default:conv_1 conv_2 conv_3 conv_4 conv_5)
 * `--model, -m`: The net structure. You can choose from `vgg11 vgg13 vgg16 vgg19`
 
 ### Examples
@@ -32,6 +33,7 @@ With GPU:
 ```bash
 python style_transfer.py -c contents/golden_gate.jpg -s styles/kandinsky.jpg --cuda
 ```
+By default, transferred image will be stored in directory /transferred
 
 ## Installation
 ```bash
