@@ -1,4 +1,4 @@
-# Image Style Transfer Using Convolutional Neural Networks in PyTorch
+# Image Style Transfer Using Convolutional Neural Networks
 This is unofficial pytorch implementation of the paper, "Image Style Transfer Using Convolutional Neural Networks" [Gatys+, CVPR2016].
 
 ## Requirements
