@@ -23,7 +23,7 @@ use like this: ``` python style_transfer.py --content_layers conv_1 conv_2``` (D
 * `--style_layers, -s_l`: If you want to name which layers have style-related information, use this. Names of each layers are like conv_i or relu_i <br>
 use like this: ``` python style_transfer.py --style_layers conv_1 reelu_3``` (Default:conv_1 conv_2 conv_3 conv_4 conv_5)
 * `--model, -m`: The net structure. You can choose from `vgg11 vgg13 vgg16 vgg19`
-![image](https://github.com/zephyr-jebel/pytorch-Neural-Style-Transfer/edit/master/ConvNet Structure.png)
+![image](https://github.com/zephyr-jebel/pytorch-Neural-Style-Transfer/blob/master/ConvNet%20Structure.png)
 
 ### Examples
 With CPU:
