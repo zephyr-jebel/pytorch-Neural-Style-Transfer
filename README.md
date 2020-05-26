@@ -1,8 +1,6 @@
 # Image Style Transfer Using Convolutional Neural Networks in PyTorch
 This is unofficial pytorch implementation of the paper, "Image Style Transfer Using Convolutional Neural Networks" [Gatys+, CVPR2016].
 
-<img src='imgs/style.jpg' title='Style Image' width='30%'> <img src='imgs/content.jpg' title='Content Image' width='30%'> <img src='imgs/transferred.jpg' title='Transferred Image' width='30%'>
-
 ## Requirements
 * Python 3.6+ 
 * PyTorch 1.5.0+ or 1.5.0+cu*
