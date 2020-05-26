@@ -37,7 +37,7 @@ python style_transfer.py -c contents/golden_gate.jpg -s styles/kandinsky.jpg --c
 
 ## Installation
 ```bash
-git clone https://github.com/enomotokenji/pytorch-Neural-Style-Transfer.git
+git clone https://github.com/zephyr-jebel/pytorch-Neural-Style-Transfer.git
 ```
 Install PyTorch and dependencies from [http://pytorch.org.](http://pytorch.org)  
 We have prepared requirement.txt, but it is preferable to use Anaconda as recommended on [http://pytorch.org.](http://pytorch.org)
