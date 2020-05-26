@@ -21,11 +21,15 @@ from utils import image_loader, image_loader_gray, save_image
 parser = argparse.ArgumentParser()
 parser.add_argument('--content', '-c', type=str, required=True, help='The path to the Content image')
 parser.add_argument('--style', '-s', type=str, required=True, help='The path to the style image')
+parser.add_argument('--output', '-o', type=str, help='The path storing transferred image')
 parser.add_argument('--epoch', '-e', type=int, default=300, help='The number of epoch')
 parser.add_argument('--content_weight', '-c_w', type=int, default=1, help='The weight of content loss')
 parser.add_argument('--style_weight', '-s_w', type=int, default=500, help='The weight of style loss')
 parser.add_argument('--initialize_noise', '-i_n', action='store_true', help='Initialize with white noise? elif initialize with content image')
 parser.add_argument('--cuda', action='store_true', help='use cuda?')
+parser.add_argument('--content_layers', '-c_l', type=str, action='append', nargs='+', help='The layers which you think have content information, name like conv_i or relu_i')
+parser.add_argument('--style_layers', '-s_l', type=str, action='append', nargs='+', help='The layers which you think have style information, name like conv_i or relu_i')
+parser.add_argument('--model', '-m', type=str, default='vgg19', help='The net structure')
 args = parser.parse_args()
 
 use_cuda = torch.cuda.is_available() and args.cuda
@@ -46,9 +50,14 @@ input_size = Image.open(args.content).size
 
 assert style_img.size() == content_img.size(), \
     "we need to import style and content images of the same size"
-
-cnn = models.vgg19(pretrained=True).features
-
+if args.model == 'vgg19':
+    cnn = models.vgg19(pretrained=True).features
+elif args.model == 'vgg16':
+    cnn = models.vgg16(pretrained=True).features
+elif args.model == 'vgg13':
+    cnn = models.vgg13(pretrained=True).features
+elif args.model == 'vgg11':
+    cnn = models.vgg11(pretrained=True).features
 # move it to the GPU if possible:
 if use_cuda:
     cnn = cnn.cuda()
@@ -128,10 +137,10 @@ def get_input_param_optimizer(input_img):
     optimizer = optim.LBFGS([input_param])
     return input_param, optimizer
 
-def run_style_transfer(cnn, content_img, style_img, input_img, num_steps=300, style_weight=1000, content_weight=1):
+def run_style_transfer(cnn, content_img, style_img, input_img, num_steps=300, style_weight=1000, content_weight=1, content_layers=content_layers_default, style_layers=style_layers_default):
     """Run the style transfer."""
     print('Building the style transfer model..')
-    model, style_losses, content_losses = get_style_model_and_losses(cnn, style_img, content_img, style_weight, content_weight)
+    model, style_losses, content_losses = get_style_model_and_losses(cnn, style_img, content_img, style_weight, content_weight, content_layers, style_layers)
     input_param, optimizer = get_input_param_optimizer(input_img)
 
     print('Optimizing..')
@@ -155,7 +164,7 @@ def run_style_transfer(cnn, content_img, style_img, input_img, num_steps=300, st
             run[0] += 1
             if run[0] % 50 == 0:
                 print("run {}:".format(run))
-                print('Style Loss : {:4f} Content Loss: {:4f}'.format(style_score.data[0], content_score.data[0]))
+                print('Style Loss : {:4f} Content Loss: {:4f}'.format(style_score.item(), content_score.item()))
 
             return style_score + content_score
 
@@ -166,12 +175,13 @@ def run_style_transfer(cnn, content_img, style_img, input_img, num_steps=300, st
 
     return input_param.data
 
-output = run_style_transfer(cnn, content_img, style_img, input_img, args.epoch, args.style_weight, args.content_weight)
+content_layers = content_layers_default if args.content_layers is None else args.content_layers[0]
+style_layers = style_layers_default if args.style_layers is None else args.content_layers[0]
+#print(content_layers)
+output = run_style_transfer(cnn, content_img, style_img, input_img, args.epoch, args.style_weight, args.content_weight, content_layers, style_layers)
 
 name_content, ext = os.path.splitext(os.path.basename(args.content))
 name_style, _ = os.path.splitext(os.path.basename(args.style))
-fname = name_content+'-'+name_style+ext
+fname = name_content+'-'+name_style+ext if args.output is None else args.output
 
 save_image(output, size=input_img.data.size()[1:], input_size=input_size, fname=fname)
-
-
