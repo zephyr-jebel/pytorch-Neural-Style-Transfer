@@ -1,4 +1,4 @@
-numpy>=1.11.1
-torch>=0.2.0.post4
-Pillow>=5.0.0
-torchvision>=0.2.0
+torch>=1.5.0
+TorchVision>=0.6.0
+Numpy>=1.16.2
+Pillow>=5.1.0
