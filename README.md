@@ -19,6 +19,11 @@ This is unofficial pytorch implementation of the paper, "Image Style Transfer Us
 * `-style_weight, -s_w`: The weight of the style loss. (Default: 1000)
 * `--initialize_noise, -i_n`: If you use this option, the transferred image is initialized with white noise. If not, it is initialized with the grayscale content image.
 * `--cuda`: If you have an available GPU, you should use this option.
+* `--content_layers, -c_l`: If you want to name which layers have content-related information, use this. name of each layers are like conv_i or relu_i <br>
+use like this: ``` python style_transfer.py --content_layers conv_1 conv_2```
+* `--style_layers, -s_l`: If you want to name which layers have style-related information, use this. name of each layers are like conv_i or relu_i <br>
+use like this: ``` python style_transfer.py --style_layers conv_1 reelu_3```
+* `--model, -m`: The net structure. You can choose from `vcc11 vcc13 vcc16 vcc19`
 
 ### Examples
 With CPU:
@@ -33,20 +38,7 @@ python style_transfer.py -c contents/golden_gate.jpg -s styles/kandinsky.jpg --c
 ## Installation
 ```bash
 git clone https://github.com/enomotokenji/pytorch-Neural-Style-Transfer.git
-cd pytorch-Neural-Style-Transfer
 ```
-
-### Docker
-```bash
-docker build -t style_transfer .
-docker run -it style_transfer
-```
-### Nvidia Docker
-```bash
-nvidia-docker build -t style_transfer_gpu .
-nvidia-docker run style_transfer_gpu
-```
-### Without Docker
 Install PyTorch and dependencies from [http://pytorch.org.](http://pytorch.org)  
 We have prepared requirement.txt, but it is preferable to use Anaconda as recommended on [http://pytorch.org.](http://pytorch.org)
 
