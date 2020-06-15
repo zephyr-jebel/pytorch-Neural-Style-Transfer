@@ -145,7 +145,7 @@ def run_style_transfer(cnn, content_img, style_img, input_img, num_steps=300, st
 
     print('Optimizing..')
     run = [0]
-    while run[0] <= num_steps:
+    while run[0] < num_steps:
 
         def closure():
             # correct the values of updated input image
